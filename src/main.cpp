@@ -16,12 +16,9 @@ using namespace std;
 #include "util/util.h"
 #include "log/logger.h"
 
-
-//epollServer *server;
 MasterThread *tMaster;
 
-
-
+//TODO httpd入口
 int main()
 {
 	signal(SIGINT, [](int signum)->void{

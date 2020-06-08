@@ -1,7 +1,7 @@
 #include "MasterThread.h"
 #include "netThreadPoolInterface.h"
 
-
+//TODO 绑定端口地址二元组
 bool MasterThread::setAddr(int Port, std::string Address)
 {
 	//Init struct sockaddr_in Address
@@ -36,22 +36,26 @@ bool MasterThread::setAddr(int Port, std::string Address)
 	}
 }
 
+//TODO 通过地址端口二元组构造
 MasterThread::MasterThread(int Port, std::string Address)
 {
 	this->fdServer = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	this->setAddr(Port, Address);
 }
 
+//TODO 设置最大连接数
 void MasterThread::setMaxConn(int n)
 {
 	this->maxConn = n;
 }
 
+//绑定一个工作线程池
 void MasterThread::bindPool(ThreadPool * p)
 {
 	this->threadPool = p;
 }
 
+//TODO 监听地址
 int MasterThread::startListen()
 {
 	//Bind Address
@@ -73,6 +77,7 @@ MasterThread::~MasterThread()
 {
 }
 
+//TODO Accepter线程
 void MasterThread::run()
 {
 	int fdConn = -1;
@@ -99,6 +104,7 @@ void MasterThread::run()
 	}
 }
 
+//TODO 停止Accepter线程
 void MasterThread::stop()
 {
 	this->stopFlag = true;

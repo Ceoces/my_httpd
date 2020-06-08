@@ -78,6 +78,7 @@ void ioWorker::do_task(ioTask task)
     }
 }
 
+//TODO 关闭ioWorker
 void ioWorker::stop()
 {
     _stop = true;

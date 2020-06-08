@@ -103,6 +103,7 @@ int WorkerThread::removeConn(int fd)
 	return res;
 }
 
+//TODO 停止WorkerThread
 void WorkerThread::stop()
 {
 	stopFlag = true;

@@ -68,6 +68,7 @@ bool ThreadPool::delConn(int fd)
 	return flag;
 }
 
+//TODO 停止线程池
 void ThreadPool::stop(){
 	for(int i=0;i<init_size; i++){
 		workerList[i]->stop();

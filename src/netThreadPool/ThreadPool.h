@@ -5,6 +5,7 @@
 
 #include "../log/logger.h"
 #include "netThreadPoolInterface.h"
+#include "WorkerThread.h"
 
 #include<iostream>
 #include <thread>
@@ -28,6 +29,7 @@ public:
 	void start();
 	bool addTask(int fdTask);
 	bool delConn(int fd);
+	void stop();
 	
 };
 

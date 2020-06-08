@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdlib>
 
+#include<signal.h>
+
 using namespace std;
 
 #include "config/myConfig.h"
@@ -18,9 +20,19 @@ using namespace std;
 //epollServer *server;
 MasterThread *tMaster;
 
+
+
 int main()
 {
-
+	signal(SIGINT, [](int signum)->void{
+			cout << "SIGINT" <<endl;
+			LOGINFO << "Get signal SIGINT";
+			cout << "httpd will stop after 3 s" <<endl;
+			ioPool::stop();
+			tMaster->stop();
+			LOGSTOP();
+			alarm(3);
+	});
 	try {
 		myConfig conf = Config::get();
 		//打开log文件
@@ -39,6 +51,9 @@ int main()
 		pNetPoolInterface->start();
 
 		tMaster->bindPool((ThreadPool *)pNetPoolInterface);
+
+
+
 		LOGINFO << "Start master thread.";
 		tMaster->run();
 	}

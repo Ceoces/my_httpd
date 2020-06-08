@@ -67,3 +67,9 @@ bool ThreadPool::delConn(int fd)
 	}
 	return flag;
 }
+
+void ThreadPool::stop(){
+	for(int i=0;i<init_size; i++){
+		workerList[i]->stop();
+	}
+}

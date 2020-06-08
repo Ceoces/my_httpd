@@ -25,7 +25,7 @@ $(srcThreadPool)/MasterThread.o :  $(srclog)/logger.o
 $(srcThreadPool)/WorkerThread.o : $(srcHttp)/request.o $(srclog)/logger.o
 	$(cc) -c $(srcThreadPool)/WorkerThread.cpp  $^   -o $@
 
-$(srcThreadPool)/ThreadPool.o :  $(srclog)/logger.o
+$(srcThreadPool)/ThreadPool.o :  $(srclog)/logger.o $(srcThreadPool)/WorkerThread.o 
 	$(cc) -c $(srcThreadPool)/ThreadPool.cpp $^   $(pthread) -o $@
 
 $(srcUtil)/util.o :  $(srclog)/logger.o

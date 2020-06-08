@@ -36,6 +36,7 @@ private:
 	int maxConn = DEFAULT_MAXCONN;
 	struct sockaddr_in ServerAddr;
 	bool setAddr(int Port, std::string Address);
+	bool stopFlag = false;
 public:
 	ThreadPool *threadPool = nullptr;
 public:
@@ -45,6 +46,7 @@ public:
 	int startListen();
 	~MasterThread();
 	void run();
+	void stop();
 };
 
 #endif

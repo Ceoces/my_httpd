@@ -18,7 +18,7 @@ void do_work(WorkerThread *wt)
 	std::cout << "Net thread " << wt->no << " start" <<std::endl;
 	LOGINFO << "Net thread start";
 
-	while (true)
+	while (!wt->stopFlag)
 	{
 		if (wt->ClientNum == 0) {
 			sleep(1);
@@ -101,4 +101,9 @@ int WorkerThread::removeConn(int fd)
 	}
 	std::cout << "}" <<std::endl;
 	return res;
+}
+
+void WorkerThread::stop()
+{
+	stopFlag = true;
 }

@@ -14,6 +14,7 @@ public:
     virtual	void start() = 0;
 	virtual bool addTask(int fdTask) = 0;
     virtual bool delConn(int fd) = 0;
+	virtual void stop() = 0;
 };
 extern netThreadPoolInterface *pNetPoolInterface;
 

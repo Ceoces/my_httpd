@@ -24,6 +24,7 @@ using std::thread;
 #include "../ioThreadPool/ioThreadPoolInterface.h"
 #include "../ioThreadPool/ioWorker.h"
 #include "../ioThreadPool/ioPool.h"
+#include "ThreadPool.h"
 
 #include "../log/logger.h"
 
@@ -36,6 +37,7 @@ public:
 	int fdEpoll = -1;
 	int maxClient = 50;
 	int no;
+	bool stopFlag = false;
 
 	thread *worker;
 	int ClientNum = 0;

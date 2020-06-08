@@ -83,7 +83,7 @@ void MasterThread::run()
 	setsockopt(fdServer, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof optval);
 	setsockopt(fdServer, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof optval);
 
-	while (true) {
+	while (!stopFlag) {
 		fdConn = accept(fdServer, reinterpret_cast<sockaddr *>(&addrConn), reinterpret_cast<socklen_t *>(&len));
 		//push into thread_pool
 		{
@@ -97,4 +97,10 @@ void MasterThread::run()
 			lock.unlock();
 		}
 	}
+}
+
+void MasterThread::stop()
+{
+	this->stopFlag = true;
+	this->threadPool->stop();
 }

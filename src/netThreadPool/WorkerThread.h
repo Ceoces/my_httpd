@@ -32,14 +32,16 @@ class ThreadPool;
 
 class WorkerThread
 {
-public:
-	struct epoll_event *evList;
-	int fdEpoll = -1;
-	int maxClient = 50;
+private:
 	int no;
 	bool stopFlag = false;
-
 	thread *worker;
+	int maxClient = 50;
+	int fdEpoll = -1;
+	
+public:
+	struct epoll_event *evList;
+	
 	int ClientNum = 0;
 	std::mutex mClientNum;
 
@@ -51,6 +53,8 @@ public:
 	
 	void stop();
 	int addTask(int fdTask);
+
+	friend void do_work(WorkerThread *wt);
 
 	~WorkerThread();
 };

@@ -6,7 +6,7 @@ std::vector<ioWorker *> ioPool::workerList;
 //TODO: 添加任务
 void ioPool::addTask(ioTask task)
 {
-    cout << "ioPool:addTask({fd:"<< task.taskResource.sock_fd.sockfd <<"})" << endl;
+
     std::unique_lock<std::mutex> lock(ioPoolmcv);
 
     ioTaskQueue.push(task);

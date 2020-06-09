@@ -50,7 +50,7 @@ void Response::sendHeader(int fd){
         header += "\r\n";
     }
     header += "\r\n";
-    std::cout << header <<std::endl;
+    
     write(fd, header.c_str(), header.length());
 }
 Response::~Response()

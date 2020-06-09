@@ -86,7 +86,7 @@ void MasterThread::run()
 
 	int optval = 1;
 	setsockopt(fdServer, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof optval);
-	setsockopt(fdServer, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof optval);
+	//setsockopt(fdServer, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof optval);
 
 	while (!stopFlag) {
 		fdConn = accept(fdServer, reinterpret_cast<sockaddr *>(&addrConn), reinterpret_cast<socklen_t *>(&len));
@@ -102,6 +102,7 @@ void MasterThread::run()
 			lock.unlock();
 		}
 	}
+	LOGINFO << "Accepter stop" ;
 }
 
 //TODO 停止Accepter线程

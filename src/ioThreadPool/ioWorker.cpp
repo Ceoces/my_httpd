@@ -16,7 +16,7 @@ void ioWorker::working()
 {
     //TODO IO thread
     std::cout << "IO worker " << _no << " start." << std::endl;
-    LOGINFO << "IO worker start.";
+    LOGINFO << "IO worker " << _no << " start.";
     while (!_stop)
     {
         std::unique_lock<std::mutex> lock(ioPoolmcv);
@@ -24,14 +24,15 @@ void ioWorker::working()
         {
             ioPoolcv.wait(lock);
         }
-        std::cout << "IO worker " << _no << " get data.." << std::endl;
-        LOGINFO << "IO worker " << _no << " get data..";
         ioTask task = ioTaskQueue.front();
         ioTaskQueue.pop();
         lock.unlock();
-        
+
+        LOGINFO << "IO worker " << _no << " get data from " << task.taskResource.sock_fd.sockfd;
+
         do_task(task);
     }
+    LOGINFO << "ioWorker " << this->_no << " stop.";
 }
 
 //TODO 启动线程
@@ -50,20 +51,16 @@ void ioWorker::do_task(ioTask task)
         case ioTask::READ_FROM_SOCK:
         {
              int len = read(task.taskResource.sock_buf.sockfd, buf, 1024);
-             cout << "IO Worker " << _no << " do task len : " << len <<endl;
              if (len > 0) {
-                    cout << "IO Worker " << _no << " read data" <<endl;
 					buf[len] = '\0';
                     Request *req = new Request(buf, len);
                     LOGINFO << "ioWorker: get http request:" << req->getUrl();
                     string file_type = req->getUrl().substr(req->getUrl().find_last_of('.')+1);
-                    cout << "url's type : " << file_type <<endl;
                     req->do_request(task.taskResource.sock_buf.sockfd);
 			}
 			else if (len == 0) {
-                cout << "IO Worker " << _no << " delete conn" <<endl;
                 if(!pNetPoolInterface->delConn(task.taskResource.sock_buf.sockfd)){
-                   LOGERR << "Del conn field";
+                   LOGERR << "Del conn field " << task.taskResource.sock_buf.sockfd;
                 }
 			}
 			else{

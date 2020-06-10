@@ -81,22 +81,22 @@ void Request::do_request(int fd)
     }
     if(S_ISDIR(fileInfo.st_mode)){
         //目录
-        std::cout << "Dir:" ;
         DIR *pDir = opendir(fileaddr.c_str());
-        struct dirent *pEnt = nullptr;
         if(pDir == nullptr){
              Response(403).sendHeader(fd);
              return;
         }
+
+        //查找文件
+        struct dirent *pEnt = nullptr;
         while ((pEnt = readdir(pDir)) != nullptr)
         {
-        std::cout << pEnt->d_name << " ";
             if(strcasecmp(pEnt->d_name, "index.") > 0){
                 break;
             }
         }
-        cout << endl;
-        if(pEnt == nullptr ||  !S_ISREG( pEnt->d_type) ){ 
+
+        if(pEnt == nullptr ){ 
             Response(404).sendHeader(fd);
              return;
         }
@@ -114,12 +114,29 @@ void Request::do_request(int fd)
 
     //处理文件
     //判断文件类型
-    if(strcasecmp(fileaddr.c_str(), ".php")==0 ){
+    //cout << fileaddr <<endl;
+    LOGINFO << "Get file " << fileaddr; 
+    if(fileaddr.find(".php")  != std::string::npos){
         ;
     }  else {
+        cout << 200 <<endl;
         Response re(200);
         re.setField("Content-Length", std::to_string(fileInfo.st_size));
         re.setField("Connection", "keep-alive");
+
+        //设置Content-Type字段
+        if(fileaddr.find(".css") != std::string::npos){
+            re.setField("Content-Type" , "text/html");
+        } else if(fileaddr.find(".jpg") != std::string::npos){
+            re.setField("Content-Type" , "image/jpeg");
+        } else  if(fileaddr.find(".png") != std::string::npos){
+            re.setField("Content-Type" , "image/png");
+        } else  if(fileaddr.find(".html") != std::string::npos){
+            re.setField("Content-Type" , "text/html");
+        }  else {
+            re.setField("Content-Type", "text/plain");
+        }
+
         re.sendHeader(fd);
         int file_fd = open(fileaddr.c_str(), O_RDONLY);
         sendfile(fd, file_fd, 0 ,fileInfo.st_size);

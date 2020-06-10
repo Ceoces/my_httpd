@@ -6,6 +6,11 @@
             "type": "shell",
             "command": "make clean && make",
             "problemMatcher": []
+        },{
+            "label" : "clean",
+            "type": "shell",
+            "command" : "make clean && rm bin/myhttpd.log",
+            "problemMatcher": []
         },
         {
             "type": "shell",

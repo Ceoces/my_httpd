@@ -14,6 +14,7 @@
 
 #include "response.h"
 #include "../config/myConfig.h"
+#include "../log/logger.h"
 
 #define _DEBUG_
 

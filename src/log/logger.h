@@ -16,6 +16,7 @@
 #include<thread>
 
 #include<sys/time.h>
+#include<unistd.h>
 
 #define ZLOG_INIT_SIZE 5
 

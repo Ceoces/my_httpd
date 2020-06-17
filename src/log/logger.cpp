@@ -71,14 +71,23 @@ namespace ZLog{
     void Logger::logging(std::string logname)
     {
         std::ofstream f(logname,std::ios::app);
+        bool isHashNull;
+
         while(!_stop){
             this->now = !this->now;
+            isHashNull = true;
             for(int i= 0; i < this->_size; i++)
             {
                 std::lock_guard<std::mutex> lock(_mbuf[!now]->at(i));
-                if(_buf[!now]->at(i).compare("")!=0)
+                if(_buf[!now]->at(i).compare("")!=0){
                     f << _buf[!now]->at(i) << std::endl;
-                _buf[!now]->at(i) = "";
+                    _buf[!now]->at(i) = "";
+                    isHashNull = false;
+                }
+            }
+            if(isHashNull){
+                //std::this_thread::yield(); 让出时间片并没有什么卵用
+                sleep(1);
             }
             f.flush();
         }

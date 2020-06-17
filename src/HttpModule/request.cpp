@@ -126,7 +126,7 @@ void Request::do_request(int fd)
 
         //设置Content-Type字段
         if(fileaddr.find(".css") != std::string::npos){
-            re.setField("Content-Type" , "text/html");
+            re.setField("Content-Type" , "text/css");
         } else if(fileaddr.find(".jpg") != std::string::npos){
             re.setField("Content-Type" , "image/jpeg");
         } else  if(fileaddr.find(".png") != std::string::npos){

@@ -4,7 +4,7 @@
         {
             "label": "make",
             "type": "shell",
-            "command": "make clean && make",
+            "command": "make clean && make && make clean",
             "problemMatcher": []
         },{
             "label" : "clean",

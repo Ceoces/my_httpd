@@ -114,8 +114,6 @@ void Request::do_request(int fd)
 
     //处理文件
     //判断文件类型
-    //cout << fileaddr <<endl;
-    LOGINFO << "Get file " << fileaddr; 
     if(fileaddr.find(".php")  != std::string::npos){
         ;
     }  else {

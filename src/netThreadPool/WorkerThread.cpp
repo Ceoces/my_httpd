@@ -1,6 +1,6 @@
 #include "WorkerThread.h"
 
-WorkerThread::WorkerThread()
+WorkerThread::WorkerThread() : ClientNum(0)
 {
 }
 
@@ -9,6 +9,7 @@ WorkerThread::~WorkerThread()
 {
 }
 
+//TODO epoll线程
 void do_work(WorkerThread *wt)
 {
 	// Init epoll
@@ -56,9 +57,8 @@ int WorkerThread::addTask(int fdTask)
 	epoll_event ev;
 	ev.events = EPOLLIN | EPOLLHUP | EPOLLERR | EPOLLET;
 	ev.data.fd = fdTask;
-	mClientNum.lock();
 	ClientNum++;
-	mClientNum.unlock();
+
 	int res = epoll_ctl(fdEpoll, EPOLL_CTL_ADD, fdTask, &ev);
 	/*cout << "Event list: {";
 	for(int i=0; i < ClientNum; i++){
@@ -86,18 +86,11 @@ int WorkerThread::removeConn(int fd)
 	}
 
 	//删除
-	mClientNum.lock();
 	ClientNum--;
-	mClientNum.unlock();
-	std::cout << "remove client " << fd;
 	LOGINFO << "remove client " << fd;
 	int res = epoll_ctl(fdEpoll, EPOLL_CTL_DEL, fd, p);
 	::close(fd);
-	cout << "Event list: {";
-	for(int i=0; i < ClientNum; i++){
-		std::cout << "fd: " << evList[i].data.fd << " ";
-	}
-	std::cout << "}" <<std::endl;
+
 	return res;
 }
 

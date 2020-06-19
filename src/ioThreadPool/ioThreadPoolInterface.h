@@ -5,6 +5,8 @@
 #include<mutex>
 #include<string>
 #include<condition_variable>
+#include <atomic>
+
 
 //TODO IO任务
 struct ioTask{
@@ -33,7 +35,5 @@ struct ioTask{
 extern std::queue<ioTask> ioTaskQueue;
 extern std::mutex ioPoolmcv;
 extern std::condition_variable ioPoolcv;
-extern  int TaskNum;
-
 
 #endif

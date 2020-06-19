@@ -8,6 +8,7 @@
 
 #include<mutex>
 #include <thread>
+#include <atomic>
 
 using std::vector;
 using std::thread;
@@ -42,8 +43,7 @@ private:
 public:
 	struct epoll_event *evList;
 	
-	int ClientNum = 0;
-	std::mutex mClientNum;
+	std::atomic<int> ClientNum ;
 
 	WorkerThread();
 	WorkerThread(int m_no) : no(m_no){}
